@@ -127,5 +127,32 @@ class Order
         }
     }
 
+    /**
+     * Sets ordered date.
+     * If order is created by registered customer, it increases its loyalty points.
+     */
+    public function doOrder()
+    {
+        $now = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $this->ordered = $now;
 
+        if ($this->customer instanceof RegisteredCustomer) {
+            $totalSum = $this->calculateTotalSum();
+            $this->customer->increaseLoyaltyPoints($totalSum);
+        }
+    }
+
+    /**
+     * Calculates total sum of products with VAT
+     *
+     * @return float
+     */
+    private function calculateTotalSum()
+    {
+        $sum = 0;
+        foreach ($this->items as $item) {
+            $sum += $item->getPriceVat();
+        }
+        return $sum;
+    }
 }
