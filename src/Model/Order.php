@@ -7,7 +7,7 @@ class Order
     /**
      * @var int
      */
-    private $id;
+    use Id;
 
     /**
      * @var \DateTime
@@ -31,35 +31,18 @@ class Order
 
     /**
      * Order constructor.
-     * @param int $id
      * @param \DateTime $created
      * @param \DateTime $ordered
      * @param Customer $customer
      * @param Product[] $items
      */
-    public function __construct($id, \DateTime $created, \DateTime $ordered, Customer $customer, array $items)
+    public function __construct(\DateTime $created, \DateTime $ordered, Customer $customer, array $items)
     {
-        $this->id = $id;
+        $this->generateId();
         $this->created = $created;
         $this->ordered = $ordered;
         $this->customer = $customer;
         $this->items = $items;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**

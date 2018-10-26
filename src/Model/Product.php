@@ -7,7 +7,7 @@ class Product
     /**
      * @var int
      */
-    private $id;
+    use Id;
 
     /**
      * @var string
@@ -26,33 +26,16 @@ class Product
 
     /**
      * Product constructor.
-     * @param int $id
      * @param string $name
      * @param float $price
      * @param float $vatRate
      */
-    public function __construct($id, $name, $price, $vatRate)
+    public function __construct($name, $price, $vatRate)
     {
-        $this->id = $id;
+        $this->generateId();
         $this->name = $name;
         $this->price = $price;
         $this->vatRate = $vatRate;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**

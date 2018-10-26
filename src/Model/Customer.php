@@ -7,7 +7,7 @@ class Customer
     /**
      * @var int
      */
-    private $id;
+    use Id;
 
     /**
      * @var string
@@ -16,29 +16,12 @@ class Customer
 
     /**
      * Customer constructor.
-     * @param int $id
      * @param string $name
      */
-    public function __construct($id, $name)
+    public function __construct($name)
     {
-        $this->id = $id;
+        $this->generateId();
         $this->name = $name;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
