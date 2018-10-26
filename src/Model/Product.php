@@ -20,16 +20,23 @@ class Product
     private $price;
 
     /**
+     * @var float
+     */
+    private $vatRate;
+
+    /**
      * Product constructor.
      * @param int $id
      * @param string $name
      * @param float $price
+     * @param float $vatRate
      */
-    public function __construct($id, $name, $price)
+    public function __construct($id, $name, $price, $vatRate)
     {
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;
+        $this->vatRate = $vatRate;
     }
 
     /**
@@ -78,5 +85,27 @@ class Product
     public function setPrice($price)
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return float
+     */
+    public function getVatRate()
+    {
+        return $this->vatRate;
+    }
+
+    /**
+     * @param float $vatRate
+     */
+    public function setVatRate($vatRate)
+    {
+        $this->vatRate = $vatRate;
+    }
+
+    public function getPriceVat()
+    {
+        $priceVat = $this->price + $this->price*$this->vatRate;
+        return $priceVat;
     }
 }

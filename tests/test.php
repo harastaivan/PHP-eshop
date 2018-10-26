@@ -10,11 +10,11 @@ $customer3 = new EShop\Model\Customer(3, "Testovaci 3");
 $customer4 = new EShop\Model\Customer(4, "Testovaci 4");
 $customer5 = new EShop\Model\Customer(5, "Testovaci 5");
 
-$product1 = new EShop\Model\Product(1, 'Product 1', 12.5);
-$product2 = new EShop\Model\Product(2, 'Product 2', 12.5);
-$product3 = new EShop\Model\Product(3, 'Product 3', 12.5);
-$product4 = new EShop\Model\Product(4, 'Product 4', 12.5);
-$product5 = new EShop\Model\Product(5, 'Product 5', 12.5);
+$product1 = new EShop\Model\Product(1, 'Product 1', 12.5, 0.21);
+$product2 = new EShop\Model\Product(2, 'Product 2', 12.5, 0.21);
+$product3 = new EShop\Model\Product(3, 'Product 3', 12.5, 0.21);
+$product4 = new EShop\Model\Product(4, 'Product 4', 12.5, 0.15);
+$product5 = new EShop\Model\Product(5, 'Product 5', 12.5, 0.21);
 
 $order1 = new EShop\Model\Order(1, $now, $now, $customer1, [
     $product1,
