@@ -12,7 +12,7 @@ class Customer
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * Customer constructor.
