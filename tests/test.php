@@ -37,10 +37,15 @@ print_r($customer4);
 print_r($customer5);
 
 print_r($product1);
+print_r($product1->getPriceVat());
 print_r($product2);
+print_r($product2->getPriceVat());
 print_r($product3);
+print_r($product3->getPriceVat());
 print_r($product4);
+print_r($product4->getPriceVat());
 print_r($product5);
+print_r($product5->getPriceVat());
 
 print_r($order1);
 print_r($order2);
