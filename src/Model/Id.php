@@ -8,7 +8,7 @@ trait Id
     /**
      * @var static int
      */
-    private static $generatedId = 1;
+    protected static $generatedId = 1;
 
     /**
      * @var int

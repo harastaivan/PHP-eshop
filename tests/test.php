@@ -1,51 +1,117 @@
 <?php
+use EShop\Model\Customer;
+use EShop\Model\Product;
+use EShop\Model\Order;
+use EShop\Model\UnregisteredCustomer;
+use EShop\Model\RegisteredCustomer;
 
 include_once __DIR__ . '/../autoload.php';
 
 $now = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
 
-$customer1 = new EShop\Model\Customer("Testovaci 1");
-$customer2 = new EShop\Model\Customer("Testovaci 2");
-$customer3 = new EShop\Model\Customer("Testovaci 3");
-$customer4 = new EShop\Model\Customer("Testovaci 4");
-$customer5 = new EShop\Model\Customer("Testovaci 5");
+// Customer
+$customer1 = new Customer("Testovaci 1");
+$customer2 = new Customer("Testovaci 2");
+$customer3 = new Customer("Testovaci 3");
+$customer4 = new Customer("Testovaci 4");
+$customer5 = new Customer("Testovaci 5");
 
-$product1 = new EShop\Model\Product('Product 1', 12.5, 0.21);
-$product2 = new EShop\Model\Product('Product 2', 12.5, 0.21);
-$product3 = new EShop\Model\Product('Product 3', 12.5, 0.21);
-$product4 = new EShop\Model\Product('Product 4', 12.5, 0.15);
-$product5 = new EShop\Model\Product('Product 5', 12.5, 0.21);
+// Customer Id
+if ($customer1->getId() !== 1 || $customer2->getId() !== 2 || $customer5->getId() !== 5) {
+    throw new \Exception('wrong customer Id');
+}
 
-$order1 = new EShop\Model\Order($now, $now, $customer1, [
+// Product
+$product1 = new Product('Product 1', 12.5, 0.21);
+$product2 = new Product('Product 2', 12.5, 0.21);
+$product3 = new Product('Product 3', 12.5, 0.21);
+$product4 = new Product('Product 4', 12.5, 0.15);
+$product5 = new Product('Product 5', 12.5, 0.21);
+
+// Product Id
+if ($product1->getId() !== 1 || $product2->getId() !== 2 || $product5->getId() !== 5) {
+    throw new \Exception('wrong product Id');
+}
+
+// Order
+$order1 = new Order($now, $customer1, [
     $product1,
     $product3
 ]);
 
-$order2 = new EShop\Model\Order($now, $now, $customer4, [
+$order2 = new Order($now, $customer4, [
     $product2,
     $product3,
     $product5
 ]);
 
+// Order Id
+if ($order1->getId() !== 1 || $order2->getId() !== 2) {
+    throw new \Exception('wrong order Id');
+}
+
+// Add | Remove item from order
 $order1->addItem($product1);
 $order1->removeItem($product3);
 
-print_r($customer1);
-print_r($customer2);
-print_r($customer3);
-print_r($customer4);
-print_r($customer5);
 
-print_r($product1);
-print_r($product1->getPriceVat());
-print_r($product2);
-print_r($product2->getPriceVat());
-print_r($product3);
-print_r($product3->getPriceVat());
-print_r($product4);
-print_r($product4->getPriceVat());
-print_r($product5);
-print_r($product5->getPriceVat());
+// Price Vat
+$product6 = new Product('Product 6', 1000, 0.24);
+if ($product6->getPriceVat() != 1240) {
+    throw new \Exception('wrong getPriceVat');
+}
 
-print_r($order1);
-print_r($order2);
+// Unregistered | Registered Customer
+$customerWillBeRegistered = new UnregisteredCustomer('Budu registrovany');
+$customerWillNotBeRegistered = new UnregisteredCustomer('Nebudu registrovany');
+
+$customerIsRegistered = $customerWillBeRegistered->register();
+
+if (!$customerIsRegistered instanceof RegisteredCustomer) {
+    throw new \Exception('wrong register');
+}
+
+if ($customerIsRegistered->getLoyaltyPoints() != RegisteredCustomer::REGISTRATION_LOYALTY_POINTS) {
+    throw new \Exception('wrong loyalty points when registered');
+}
+
+// Order
+$orderFromRegisteredCustomer = new Order($now, $customerIsRegistered, [
+    $product1,
+    $product6
+]);
+
+if (!$orderFromRegisteredCustomer->getCustomer() instanceof RegisteredCustomer) {
+    throw new \Exception('customer not registered');
+}
+
+$orderFromRegisteredCustomer->doOrder();
+
+if ($orderFromRegisteredCustomer->getOrdered() == null) {
+    throw new \Exception('wrong ordered date after doOrder');
+}
+
+if ($customerIsRegistered->getLoyaltyPoints() != 1255.125 * RegisteredCustomer::LOYALTY_POINTS_COEFFICIENT + RegisteredCustomer::REGISTRATION_LOYALTY_POINTS) {
+    throw new \Exception('wrong loyalty points after doOrder');
+}
+
+
+//print_r($customer1);
+//print_r($customer2);
+//print_r($customer3);
+//print_r($customer4);
+//print_r($customer5);
+
+//print_r($product1);
+//print_r($product1->getPriceVat());
+//print_r($product2);
+//print_r($product2->getPriceVat());
+//print_r($product3);
+//print_r($product3->getPriceVat());
+//print_r($product4);
+//print_r($product4->getPriceVat());
+//print_r($product5);
+//print_r($product5->getPriceVat());
+
+//print_r($order1);
+//print_r($order2);

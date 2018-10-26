@@ -36,11 +36,11 @@ class Order
      * @param Customer $customer
      * @param Product[] $items
      */
-    public function __construct(\DateTime $created, \DateTime $ordered, Customer $customer, array $items)
+    public function __construct(\DateTime $created, $customer, array $items)
     {
         $this->generateId();
         $this->created = $created;
-        $this->ordered = $ordered;
+        $this->ordered = null;
         $this->customer = $customer;
         $this->items = $items;
     }
