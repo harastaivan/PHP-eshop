@@ -1,6 +1,6 @@
 <?php
 
-namespace EShop;
+namespace EShop\Model;
 
 class Order
 {
