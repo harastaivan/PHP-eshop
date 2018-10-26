@@ -1,5 +1,7 @@
 <?php
 
+namespace EShop;
+
 class Customer
 {
     /**

@@ -1,5 +1,7 @@
 <?php
 
+namespace EShop;
+
 class Order
 {
     /**
@@ -8,12 +10,12 @@ class Order
     private $id;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $created;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $ordered;
 
@@ -30,12 +32,12 @@ class Order
     /**
      * Order constructor.
      * @param int $id
-     * @param DateTime $created
-     * @param DateTime $ordered
+     * @param \DateTime $created
+     * @param \DateTime $ordered
      * @param Customer $customer
      * @param Product[] $items
      */
-    public function __construct($id, DateTime $created, DateTime $ordered, Customer $customer, array $items)
+    public function __construct($id, \DateTime $created, \DateTime $ordered, Customer $customer, array $items)
     {
         $this->id = $id;
         $this->created = $created;
@@ -61,7 +63,7 @@ class Order
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -69,7 +71,7 @@ class Order
     }
 
     /**
-     * @param DateTime $created
+     * @param \DateTime $created
      */
     public function setCreated($created)
     {
@@ -77,7 +79,7 @@ class Order
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getOrdered()
     {
@@ -85,7 +87,7 @@ class Order
     }
 
     /**
-     * @param DateTime $ordered
+     * @param \DateTime $ordered
      */
     public function setOrdered($ordered)
     {
