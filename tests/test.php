@@ -7,7 +7,7 @@ use EShop\Model\RegisteredCustomer;
 
 include_once __DIR__ . '/../autoload.php';
 
-$now = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+$now = new \DateTime();
 
 // Customer
 $customer1 = new Customer("Testovaci 1");
@@ -95,6 +95,10 @@ if ($customerIsRegistered->getLoyaltyPoints() != 1255.125 * RegisteredCustomer::
     throw new \Exception('wrong loyalty points after doOrder');
 }
 
+if ($customerWillBeRegistered->getName() !== $customerIsRegistered->getName()) {
+    throw new \Exception('unregistered customer name didnt stay the same when became registered');
+}
+
 
 //print_r($customer1);
 //print_r($customer2);
@@ -115,3 +119,7 @@ if ($customerIsRegistered->getLoyaltyPoints() != 1255.125 * RegisteredCustomer::
 
 //print_r($order1);
 //print_r($order2);
+
+//print_r($customerWillNotBeRegistered);
+//print_r($customerWillBeRegistered);
+//print_r($customerIsRegistered);

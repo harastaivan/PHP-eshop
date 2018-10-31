@@ -133,7 +133,7 @@ class Order
      */
     public function doOrder()
     {
-        $now = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $now = new \DateTime();
         $this->ordered = $now;
 
         if ($this->customer instanceof RegisteredCustomer) {

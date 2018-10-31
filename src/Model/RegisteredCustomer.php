@@ -3,7 +3,7 @@
 namespace EShop\Model;
 
 
-class RegisteredCustomer
+class RegisteredCustomer extends Customer
 {
     const REGISTRATION_LOYALTY_POINTS = 100;
     const LOYALTY_POINTS_COEFFICIENT = 0.5;

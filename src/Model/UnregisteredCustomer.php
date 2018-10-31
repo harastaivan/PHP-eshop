@@ -7,6 +7,6 @@ class UnregisteredCustomer extends Customer
 {
     public function register()
     {
-        return new RegisteredCustomer();
+        return new RegisteredCustomer($this->name);
     }
 }
