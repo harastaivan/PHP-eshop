@@ -2,6 +2,9 @@
 
 namespace EShop\Model;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Customer
 {
     /**
@@ -38,5 +41,13 @@ class Customer
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @param ClassMetadata $metadata
+     */
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank());
     }
 }

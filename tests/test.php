@@ -5,6 +5,8 @@ use EShop\Model\Order;
 use EShop\Model\UnregisteredCustomer;
 use EShop\Model\RegisteredCustomer;
 
+use Symfony\Component\Validator\Validation;
+
 require __DIR__ . '/../vendor/autoload.php';
 
 $now = new \DateTime();
@@ -98,6 +100,30 @@ if ($customerIsRegistered->getLoyaltyPoints() != 1255.125 * RegisteredCustomer::
 if ($customerWillBeRegistered->getName() !== $customerIsRegistered->getName()) {
     throw new \Exception('unregistered customer name didnt stay the same when became registered');
 }
+
+$validator = Validation::createValidatorBuilder()
+    ->addMethodMapping('loadValidatorMetadata')
+    ->getValidator();
+
+$customerWithBlankName = new Customer("");
+$productWithBlankName = new Product("", 10, 0.2);
+$productWithNegativePrice = new Product("product", -1, 0.2);
+$productWithNegativeVatRate = new Product("produkt", 12.5, -0.01);
+$productWithGreaterThanOneVatRate = new Product("product", 50, 1.01);
+$productWithZeroVatRate = new Product("product", 50, 0);
+$productWithOneVatRate = new Product("product", 50, 1);
+
+$errors = $validator->validate([
+    $customerWithBlankName,
+    $productWithBlankName,
+    $productWithNegativePrice,
+    $productWithNegativeVatRate,
+    $productWithGreaterThanOneVatRate,
+    $productWithZeroVatRate,
+    $productWithOneVatRate,
+]);
+
+echo (string) $errors;
 
 
 //print_r($customer1);

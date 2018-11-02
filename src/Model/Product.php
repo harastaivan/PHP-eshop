@@ -2,6 +2,9 @@
 
 namespace EShop\Model;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Product
 {
     /**
@@ -86,9 +89,27 @@ class Product
         $this->vatRate = $vatRate;
     }
 
+    /**
+     * Returns price with VAT
+     *
+     * @return float
+     */
     public function getPriceVat()
     {
         $priceVat = $this->price + $this->price*$this->vatRate;
         return $priceVat;
+    }
+
+    /**
+     * @param ClassMetadata $metadata
+     */
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank());
+        $metadata->addPropertyConstraint('price', new Assert\GreaterThanOrEqual(0));
+        $metadata->addPropertyConstraint('vatRate', new Assert\Range([
+            'min' => 0,
+            'max' => 1,
+        ]));
     }
 }
