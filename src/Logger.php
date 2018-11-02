@@ -8,17 +8,30 @@ use Monolog\Handler\StreamHandler;
 class Logger
 {
     /**
-     * @var Logger
+     * @var bool $initialized
      */
-    private $logger;
+    private static $initialized = false;
+
+    /**
+     * @var string $name
+     */
+    private static $name = 'logger';
+
+    /**
+     * @var MonologLogger $logger
+     */
+    private static $logger;
 
     /**
      * Logger constructor.
-     * @param string $name
      */
-    public function __construct($name)
+    private static function initialize()
     {
-        $this->logger = new MonologLogger($name);
+        if (self::$initialized) {
+            return;
+        }
+        self::$logger = new MonologLogger(self::$name);
+        self::$initialized = true;
     }
 
     /**
@@ -26,10 +39,11 @@ class Logger
      * @param array $context
      * @throws \Exception
      */
-    public function logInfo($string, array $context = [])
+    public static function logInfo($string, array $context = [])
     {
-        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../log/info.log', MonologLogger::INFO));
-        $this->logger->info($string, $context);
+        self::initialize();
+        self::$logger->pushHandler(new StreamHandler(__DIR__ . '/../log/info.log', MonologLogger::INFO));
+        self::$logger->info($string, $context);
     }
 
     /**
@@ -37,10 +51,11 @@ class Logger
      * @param array $context
      * @throws \Exception
      */
-    public function logWarning($string, array $context = [])
+    public static function logWarning($string, array $context = [])
     {
-        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../log/warning.log', MonologLogger::WARNING));
-        $this->logger->warning($string, $context);
+        self::initialize();
+        self::$logger->pushHandler(new StreamHandler(__DIR__ . '/../log/warning.log', MonologLogger::WARNING));
+        self::$logger->warning($string, $context);
     }
 
     /**
@@ -48,9 +63,10 @@ class Logger
      * @param array $context
      * @throws \Exception
      */
-    public function logError($string, array $context = [])
+    public static function logError($string, array $context = [])
     {
-        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../log/error.log', MonologLogger::ERROR));
-        $this->logger->error($string, $context);
+        self::initialize();
+        self::$logger->pushHandler(new StreamHandler(__DIR__ . '/../log/error.log', MonologLogger::ERROR));
+        self::$logger->error($string, $context);
     }
 }
