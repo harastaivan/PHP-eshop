@@ -9,6 +9,8 @@ use Symfony\Component\Validator\Validation;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$logger = new \EShop\Logger('logger');
+
 $now = new \DateTime();
 
 // Customer
@@ -20,7 +22,7 @@ $customer5 = new Customer("Testovaci 5");
 
 // Customer Id
 if ($customer1->getId() !== 1 || $customer2->getId() !== 2 || $customer5->getId() !== 5) {
-    throw new \Exception('wrong customer Id');
+    $logger->logError('wrong customer Id');
 }
 
 // Product
@@ -32,7 +34,7 @@ $product5 = new Product('Product 5', 12.5, 0.21);
 
 // Product Id
 if ($product1->getId() !== 1 || $product2->getId() !== 2 || $product5->getId() !== 5) {
-    throw new \Exception('wrong product Id');
+    $logger->logError('wrong product Id');
 }
 
 // Order
@@ -49,7 +51,7 @@ $order2 = new Order($now, $customer4, [
 
 // Order Id
 if ($order1->getId() !== 1 || $order2->getId() !== 2) {
-    throw new \Exception('wrong order Id');
+    $logger->logError('wrong order Id');
 }
 
 // Add | Remove item from order
@@ -60,7 +62,7 @@ $order1->removeItem($product3);
 // Price Vat
 $product6 = new Product('Product 6', 1000, 0.24);
 if ($product6->getPriceVat() != 1240) {
-    throw new \Exception('wrong getPriceVat');
+    $logger->logError('wrong getPriceVat');
 }
 
 // Unregistered | Registered Customer
@@ -70,11 +72,11 @@ $customerWillNotBeRegistered = new UnregisteredCustomer('Nebudu registrovany');
 $customerIsRegistered = $customerWillBeRegistered->register();
 
 if (!$customerIsRegistered instanceof RegisteredCustomer) {
-    throw new \Exception('wrong register');
+    $logger->logError('wrong register');
 }
 
 if ($customerIsRegistered->getLoyaltyPoints() != RegisteredCustomer::REGISTRATION_LOYALTY_POINTS) {
-    throw new \Exception('wrong loyalty points when registered');
+    $logger->logError('wrong loyalty points when registered');
 }
 
 // Order
@@ -84,21 +86,21 @@ $orderFromRegisteredCustomer = new Order($now, $customerIsRegistered, [
 ]);
 
 if (!$orderFromRegisteredCustomer->getCustomer() instanceof RegisteredCustomer) {
-    throw new \Exception('customer not registered');
+    $logger->logError('customer not registered');
 }
 
 $orderFromRegisteredCustomer->doOrder();
 
 if ($orderFromRegisteredCustomer->getOrdered() == null) {
-    throw new \Exception('wrong ordered date after doOrder');
+    $logger->logError('wrong ordered date after doOrder');
 }
 
 if ($customerIsRegistered->getLoyaltyPoints() != 1255.125 * RegisteredCustomer::LOYALTY_POINTS_COEFFICIENT + RegisteredCustomer::REGISTRATION_LOYALTY_POINTS) {
-    throw new \Exception('wrong loyalty points after doOrder');
+    $logger->logError('wrong loyalty points after doOrder');
 }
 
 if ($customerWillBeRegistered->getName() !== $customerIsRegistered->getName()) {
-    throw new \Exception('unregistered customer name didnt stay the same when became registered');
+    $logger->logError('unregistered customer name didnt stay the same when became registered');
 }
 
 $validator = Validation::createValidatorBuilder()
@@ -123,7 +125,11 @@ $errors = $validator->validate([
     $productWithOneVatRate,
 ]);
 
-echo (string) $errors;
+if (count($errors) > 0) {
+    $logger->logWarning('validation errors', [
+        $errors,
+    ]);
+}
 
 
 //print_r($customer1);
