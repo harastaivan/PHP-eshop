@@ -5,7 +5,7 @@ use EShop\Model\Order;
 use EShop\Model\UnregisteredCustomer;
 use EShop\Model\RegisteredCustomer;
 
-include_once __DIR__ . '/../autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $now = new \DateTime();
 

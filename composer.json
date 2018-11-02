@@ -1,0 +1,16 @@
+{
+    "name": "harasiva/php-eshop",
+    "authors": [
+        {
+            "name": "Ivan Harašta",
+            "email": "harasiva@fit.cvut.cz"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^1.23",
+        "symfony/validator": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {"EShop\\": "src/"}
+    }
+}
