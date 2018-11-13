@@ -18,10 +18,12 @@ $customer1 = new UnregisteredCustomer("Alois");
 
 // Product
 $product1 = new Product('Product 1', 12.5, 0.21);
+$product2 = new Product('Product 2', 10.5, 0.21);
 
 // Order
 $order1 = new Order($now, $customer1, [
     $product1,
+    $product2,
 ]);
 
 $validator = Validation::createValidatorBuilder()
@@ -31,6 +33,7 @@ $validator = Validation::createValidatorBuilder()
 $errors = $validator->validate([
     $customer1,
     $product1,
+    $product2,
     $order1,
 ]);
 
@@ -46,15 +49,19 @@ ActiveRecord::setDb(new \PDO('sqlite:eshop.db'));
 // Product::createDbTable();
 // Order::createDbTable();
 
-// $product1->insert();
+$product1->insert();
+$product2->insert();
 
-// $customer1->insert();
+$customer1->insert();
 
-// $customer1 = $customer1->register();
-// $customer1->update();
+$customer1 = $customer1->register();
+$customer1->update();
 
 // $customers = Customer::all();
 // print_r($customers);
 
 // $alois = Customer::find(1);
 // print_r($alois);
+
+// this does not work!
+$order1->insert();
