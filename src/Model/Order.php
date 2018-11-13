@@ -2,7 +2,7 @@
 
 namespace EShop\Model;
 
-class Order
+class Order extends ActiveRecord
 {
     /**
      * @var int
@@ -154,5 +154,24 @@ class Order
             $sum += $item->getPriceVat();
         }
         return $sum;
+    }
+
+    public static function createDbTable()
+    {
+        self::execute('
+            CREATE TABLE IF NOT EXISTS order (
+              id INTEGER PRIMARY KEY,
+              created TEXT,
+              ordered TEXT,
+              customer_id INTEGER,
+              FOREIGN KEY(customer_id) REFERENCES customer(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS order_product (
+              order_id INTEGER,
+              product_id INTEGER,
+              FOREIGN KEY(order_id) REFERENCES order(id),
+              FOREIGN KEY(product_id) REFERENCES product(id)
+            );');
     }
 }

@@ -5,7 +5,7 @@ namespace EShop\Model;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Product
+class Product extends ActiveRecord
 {
     /**
      * @var int
@@ -111,5 +111,16 @@ class Product
             'min' => 0,
             'max' => 1,
         ]));
+    }
+
+    public static function createDbTable()
+    {
+        self::execute('
+            CREATE TABLE IF NOT EXISTS product (
+              id INTEGER PRIMARY KEY,
+              name TEXT,
+              price REAL,
+              vat_rate REAL
+            )');
     }
 }

@@ -5,7 +5,7 @@ namespace EShop\Model;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Customer
+class Customer extends ActiveRecord
 {
     /**
      * @var int
@@ -49,5 +49,15 @@ class Customer
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank());
+    }
+
+    public static function createDbTable()
+    {
+        self::execute('
+            CREATE TABLE IF NOT EXISTS customer (
+              id INTEGER PRIMARY KEY,
+              name TEXT,
+              loyaltyPoints REAL
+            )');
     }
 }
