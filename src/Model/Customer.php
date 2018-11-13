@@ -20,11 +20,34 @@ class Customer extends ActiveRecord
     /**
      * Customer constructor.
      * @param string $name
+     * @param int $id
      */
-    public function __construct($name)
+    public function __construct($name = null, $id = null)
     {
-        $this->generateId();
-        $this->name = $name;
+        if ($name) {
+            if ($id) {
+                $this->id = $id;
+            } else {
+                $this->generateId();
+            }
+            $this->name = $name;
+        }
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param null|string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**

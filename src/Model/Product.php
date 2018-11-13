@@ -32,13 +32,20 @@ class Product extends ActiveRecord
      * @param string $name
      * @param float $price
      * @param float $vatRate
+     * @param int $id
      */
-    public function __construct($name, $price, $vatRate)
+    public function __construct($name = null, $price = null, $vatRate = null, $id = null)
     {
-        $this->generateId();
-        $this->name = $name;
-        $this->price = $price;
-        $this->vatRate = $vatRate;
+        if ($name && $price && $vatRate) {
+            if ($id) {
+                $this->id = $id;
+            } else {
+                $this->generateId();
+            }
+            $this->name = $name;
+            $this->price = $price;
+            $this->vatRate = $vatRate;
+        }
     }
 
     /**

@@ -32,17 +32,40 @@ class Order extends ActiveRecord
     /**
      * Order constructor.
      * @param \DateTime $created
-     * @param \DateTime $ordered
      * @param Customer $customer
      * @param Product[] $items
+     * @param int $id
      */
-    public function __construct(\DateTime $created, $customer, array $items)
+    public function __construct(\DateTime $created = null, $customer = null, array $items = [], $id = null)
     {
-        $this->generateId();
-        $this->created = $created;
+
+        if ($customer && $created) {
+            if ($id) {
+                $this->id = $id;
+            } else {
+                $this->generateId();
+            }
+            $this->customer = $customer;
+            $this->created = $created;
+        }
         $this->ordered = null;
-        $this->customer = $customer;
         $this->items = $items;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
