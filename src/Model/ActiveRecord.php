@@ -66,7 +66,7 @@ abstract class ActiveRecord
     public function getPkVal()
     {
         $getter = 'get'.ucfirst(self::getPk());
-        Logger::info('Trying to get PK value from '.static::class.'::'.$getter.'()');
+        Logger::logInfo('Trying to get PK value from '.static::class.'::'.$getter.'()');
         if (method_exists($this, $getter)) {
             return $this->$getter();
         }
@@ -84,7 +84,7 @@ abstract class ActiveRecord
      */
     protected static function error($msg)
     {
-        Logger::error(static::class.': '.$msg);
+        Logger::logError(static::class.': '.$msg);
         throw new \Exception(static::class.': '.$msg);
     }
 
@@ -105,7 +105,7 @@ abstract class ActiveRecord
             $propName = $prop->getName();
             $getter = 'get'.ucfirst($propName);
             if (!($prop->getModifiers() & \ReflectionProperty::IS_STATIC)) {
-                Logger::info('Trying to get value from '.$propName.' using '.static::class.'::'.$getter.'()');
+                Logger::logInfo('Trying to get value from '.$propName.' using '.static::class.'::'.$getter.'()');
                 if (method_exists($this, $getter)) {
                     $key = $prop->getName();
                     $value = $this->$getter();
@@ -162,19 +162,21 @@ abstract class ActiveRecord
      * @param $query
      * @param array $params
      * @return bool
+     *
+     * @throws \Exception
      */
     public static function execute($query, array $params = [])
     {
-        Logger::info('Query: '.trim($query).' with params: '.implode(', ', $params));
+        Logger::logInfo('Query: '.trim($query).' with params: '.implode(', ', $params));
 
         if (!($stmt = self::$pdo->prepare($query))) {
-            Logger::error(print_r('Prepare error: '.implode(', ', self::$pdo->errorInfo()), true));
+            Logger::logError(print_r('Prepare error: '.implode(', ', self::$pdo->errorInfo()), true));
 
             return false;
         }
 
         if (!$stmt->execute($params)) {
-            Logger::error(print_r('Execute error: '.implode(', ', self::$pdo->errorInfo()), true));
+            Logger::logError(print_r('Execute error: '.implode(', ', self::$pdo->errorInfo()), true));
 
             return false;
         }
@@ -187,6 +189,8 @@ abstract class ActiveRecord
      *
      * @param $pkVal
      * @return bool
+     *
+     * @throws \Exception
      */
     public static function find($pkVal)
     {
@@ -325,7 +329,7 @@ abstract class ActiveRecord
             if ($relType === self::HAS_ONE) {
                 /** @var ActiveRecord $class */
                 $key = $class::getTable().'_'.$class::getPk();
-                Logger::info('Trying to set value to '.$prop.' using '.static::class.'::'.$setter.'()');
+                Logger::logInfo('Trying to set value to '.$prop.' using '.static::class.'::'.$setter.'()');
                 if (method_exists($this, $setter)) {
                     $this->$setter($class::find($this->$key));
                 }
@@ -338,7 +342,7 @@ abstract class ActiveRecord
                 $firstPk = $this->getPkVal();
                 $secondKey = $class::getTable().'_'.$class::getPk();
 
-                Logger::info('Trying to set value to '.$prop.' using '.static::class.'::'.$setter.'()');
+                Logger::logInfo('Trying to set value to '.$prop.' using '.static::class.'::'.$setter.'()');
                 if (method_exists($this, $setter)) {
                     $query = "SELECT $secondKey FROM `".$relTable.'`'.
                         " WHERE $firstKey = :$firstKey";

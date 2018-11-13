@@ -127,7 +127,7 @@ class Product extends ActiveRecord
               id INTEGER PRIMARY KEY,
               name TEXT,
               price REAL,
-              vat_rate REAL
+              vatRate REAL
             )');
     }
 }

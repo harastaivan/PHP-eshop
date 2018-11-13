@@ -191,19 +191,20 @@ class Order extends ActiveRecord
     public static function createDbTable()
     {
         self::execute('
-            CREATE TABLE IF NOT EXISTS order (
+            CREATE TABLE IF NOT EXISTS `order` (
               id INTEGER PRIMARY KEY,
               created TEXT,
               ordered TEXT,
               customer_id INTEGER,
               FOREIGN KEY(customer_id) REFERENCES customer(id)
-            );
+            )');
 
+        self::execute('
             CREATE TABLE IF NOT EXISTS order_product (
               order_id INTEGER,
               product_id INTEGER,
-              FOREIGN KEY(order_id) REFERENCES order(id),
+              FOREIGN KEY(order_id) REFERENCES `order`(id),
               FOREIGN KEY(product_id) REFERENCES product(id)
-            );');
+            )');
     }
 }
