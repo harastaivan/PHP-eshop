@@ -18,6 +18,12 @@ class Customer extends ActiveRecord
     protected $name;
 
     /**
+     * Name of table for ActiveRecord
+     * @var string
+     */
+    protected static $table = 'customer';
+
+    /**
      * Customer constructor.
      * @param string $name
      * @param int $id

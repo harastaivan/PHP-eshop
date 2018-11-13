@@ -30,6 +30,15 @@ class Order extends ActiveRecord
     private $items;
 
     /**
+     * Relations between Models
+     * @var array
+     */
+    protected static $relations = [
+        'customer' => [self::HAS_ONE, Customer::class],
+        'product' => [self::HAS_MANY, Product::class]
+    ];
+
+    /**
      * Order constructor.
      * @param \DateTime $created
      * @param Customer $customer
