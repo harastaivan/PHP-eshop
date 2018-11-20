@@ -26,6 +26,10 @@ $order1 = new Order($now, $customer1, [
     $product2,
 ]);
 
+$order2 = new Order($now, $customer1, [
+    $product2
+]);
+
 $validator = Validation::createValidatorBuilder()
     ->addMethodMapping('loadValidatorMetadata')
     ->getValidator();
@@ -45,9 +49,9 @@ if (count($errors) > 0) {
 
 ActiveRecord::setDb(new \PDO('sqlite:eshop.db'));
 
-// Customer::createDbTable();
-// Product::createDbTable();
-// Order::createDbTable();
+Customer::createDbTable();
+Product::createDbTable();
+Order::createDbTable();
 
 $product1->insert();
 $product2->insert();
@@ -57,11 +61,13 @@ $customer1->insert();
 $customer1 = $customer1->register();
 $customer1->update();
 
-// $customers = Customer::all();
-// print_r($customers);
+$customers = Customer::all();
+print_r($customers);
 
-// $alois = Customer::find(1);
-// print_r($alois);
+$alois = Customer::find(1);
+print_r($alois);
 
 // this does not work!
-$order1->insert();
+// $order1->insert();
+
+$order2->insert();

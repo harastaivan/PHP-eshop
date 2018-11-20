@@ -12,22 +12,22 @@ class Order extends ActiveRecord
     /**
      * @var \DateTime
      */
-    private $created;
+    protected $created;
 
     /**
      * @var \DateTime
      */
-    private $ordered;
+    protected $ordered;
 
     /**
      * @var Customer
      */
-    private $customer;
+    protected $customer;
 
     /**
      * @var Product[]
      */
-    private $items;
+    protected $items;
 
     /**
      * Relations between Models
@@ -35,7 +35,7 @@ class Order extends ActiveRecord
      */
     protected static $relations = [
         'customer' => [self::HAS_ONE, Customer::class],
-        'product' => [self::HAS_MANY, Product::class]
+        'items' => [self::HAS_MANY, Product::class]
     ];
 
     /**

@@ -15,17 +15,17 @@ class Product extends ActiveRecord
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var float
      */
-    private $price;
+    protected $price;
 
     /**
      * @var float
      */
-    private $vatRate;
+    protected $vatRate;
 
     /**
      * Product constructor.
