@@ -150,12 +150,14 @@ class Order extends ActiveRecord
     }
 
     /**
-     * @param Product $item
+     * @param int $id
      */
-    public function removeItem(Product $item)
+    public function removeItem($id)
     {
-        if(($key = array_search($item, $this->items, true)) !== false) {
-            unset($this->items[$key]);
+        foreach ($this->items as $key => $item) {
+            if ($item->getId() === $id) {
+                unset($this->items[$key]);
+            }
         }
     }
 
