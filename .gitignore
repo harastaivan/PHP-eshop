@@ -6,3 +6,4 @@ log/
 composer.phar
 
 eshop.db
+test.db
