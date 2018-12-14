@@ -5,9 +5,11 @@ require __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 use EShop\Command\ResizeImageCommand;
+use EShop\Command\PixelateImageCommand;
 
 $application = new Application();
 
 $application->add(new ResizeImageCommand());
+$application->add(new PixelateImageCommand());
 
 $application->run();
