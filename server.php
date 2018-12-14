@@ -9,11 +9,11 @@ use EShop\Model\Customer;
 
 $app = new \Slim\App();
 
-function checkArgument($args, $name, &$errors) {
-    if (!$args[$name]) {
+function checkBody($body, $name, &$errors) {
+    if (!$body[$name]) {
         $errors[] = 'Missing field ' . $name;
     }
-    return $args[$name];
+    return $body[$name];
 }
 
 // Products
@@ -49,10 +49,11 @@ $app->get('/products/{id}', function (Request $request, Response $response, $arg
 
 // Customers
 $app->post('/customers', function (Request $request, Response $response, $args) {
+    $parsedBody = $request->getParsedBody();
     $errors = [];
-    $name = checkArgument($args, 'name', $errors);
-    $username = checkArgument($args, 'username', $errors);
-    $password = checkArgument($args, 'password', $errors);
+    checkBody($parsedBody, 'name', $errors);
+    checkBody($parsedBody, 'username', $errors);
+    checkBody($parsedBody, 'password', $errors);
 
     if (!empty($errors)) {
         return $response->withHeader('Content-type', 'application/json')->withJson([
