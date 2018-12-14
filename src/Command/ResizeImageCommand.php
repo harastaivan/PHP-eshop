@@ -30,7 +30,7 @@ class ResizeImageCommand extends Command
         $height = $input->getArgument('height');
 
         $inputImage = $this->createImageFrom($inputPath);
-        $outputImage = $this->cropImage($inputImage, $width, $height);
+        $outputImage = $this->resizeImage($inputImage, $width, $height);
         $this->saveImageTo($outputImage, $outputPath);
     }
 
@@ -79,12 +79,7 @@ class ResizeImageCommand extends Command
         }
     }
 
-    private function cropImage($image, $width, $height) {
-        return imagecrop($image, [
-            'x' => 0,
-            'y' => 0,
-            'width' => $width,
-            'height' => $height,
-        ]);
+    private function resizeImage($image, $width, $height) {
+        return imagescale($image, $width, $height);
     }
 }
