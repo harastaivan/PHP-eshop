@@ -2,13 +2,22 @@
 
 require 'vendor/autoload.php';
 
+use Slim\Http\Request;
+use Slim\Http\Response;
 use EShop\Model\Product;
 use EShop\Model\Customer;
 
 $app = new \Slim\App();
 
+function checkArgument($args, $name, &$errors) {
+    if (!$args[$name]) {
+        $errors[] = 'Missing field ' . $name;
+    }
+    return $args[$name];
+}
+
 // Products
-$app->get('/products', function ($request, $response, $args) {
+$app->get('/products', function (Request $request, Response $response, $args) {
     $products = [
         new Product('Penezenka', 500, 0.21, 1),
         new Product('Mobil', 15000, 0.21, 2),
@@ -22,7 +31,7 @@ $app->get('/products', function ($request, $response, $args) {
     return $response->withHeader('Content-type', 'application/json')->withJson($data, 200);
 });
 
-$app->get('/products/{id}', function ($request, $response, $args) {
+$app->get('/products/{id}', function (Request $request, Response $response, $args) {
     $products = [
         new Product('Penezenka', 500, 0.21, 1),
         new Product('Mobil', 15000, 0.21, 2),
@@ -36,6 +45,22 @@ $app->get('/products/{id}', function ($request, $response, $args) {
         }
     }
     return $response->withHeader('Content-type', 'application/json')->withJson([], 404);
+});
+
+// Customers
+$app->post('/customers', function (Request $request, Response $response, $args) {
+    $errors = [];
+    $name = checkArgument($args, 'name', $errors);
+    $username = checkArgument($args, 'username', $errors);
+    $password = checkArgument($args, 'password', $errors);
+
+    if (!empty($errors)) {
+        return $response->withHeader('Content-type', 'application/json')->withJson([
+            'errors' => $errors,
+        ], 400);
+    }
+
+    return $response->withHeader('Content-type', 'application/json')->withStatus(201);
 });
 
 // Run app
