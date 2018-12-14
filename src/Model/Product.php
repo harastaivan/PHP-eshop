@@ -130,4 +130,13 @@ class Product extends ActiveRecord
               vatRate REAL
             )');
     }
+
+    public function getAssocData() {
+        $data = [];
+        $data['id'] = $this->id;
+        $data['name'] = $this->name;
+        $data['price'] = $this->price;
+        $data['vatRate'] = $this->vatRate;
+        return $data;
+    }
 }
