@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use EShop\Model\Product;
 use EShop\Model\Customer;
+use EShop\Middleware\AuthMiddleware;
 
 $app = new \Slim\App();
 
@@ -63,6 +64,14 @@ $app->post('/customers', function (Request $request, Response $response, $args) 
 
     return $response->withHeader('Content-type', 'application/json')->withStatus(201);
 });
+
+$app->get('/customer/current', function(Request $request, Response $response, $args) {
+    $customer = $request->getAttribute('customer');
+    return $response->withHeader('Content-type', 'application/json')->withStatus(200)->withJson([
+        'name' => $customer->getName(),
+        'username' => $customer->getUsername(),
+    ]);
+})->add(new AuthMiddleware());
 
 // Run app
 $app->run();

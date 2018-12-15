@@ -18,6 +18,16 @@ class Customer extends ActiveRecord
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * @var string
+     */
+    protected $password;
+
+    /**
      * Name of table for ActiveRecord
      * @var string
      */
@@ -26,9 +36,11 @@ class Customer extends ActiveRecord
     /**
      * Customer constructor.
      * @param string $name
+     * @param string $username
+     * @param string $password
      * @param int $id
      */
-    public function __construct($name = null, $id = null)
+    public function __construct($name = null, $username = null, $password = null, $id = null)
     {
         if ($name) {
             if ($id) {
@@ -37,6 +49,8 @@ class Customer extends ActiveRecord
                 $this->generateId();
             }
             $this->name = $name;
+            $this->username = $username;
+            $this->password = $password;
         }
     }
 
@@ -70,6 +84,38 @@ class Customer extends ActiveRecord
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     /**

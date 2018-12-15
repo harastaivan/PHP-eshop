@@ -11,6 +11,6 @@ class UnregisteredCustomer extends Customer
     {
         $logger = new Logger('name');
         $logger->logInfo('Customer with id ' . $this->id . ' is registered');
-        return new RegisteredCustomer($this->name, $this->id);
+        return new RegisteredCustomer($this->name, $this->username, $this->password, $this->id);
     }
 }
