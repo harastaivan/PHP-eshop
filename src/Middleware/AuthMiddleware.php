@@ -53,24 +53,12 @@ class AuthMiddleware
      * @return Customer|null
      */
     private function getCustomerByUsernameAndPassword($username, $password) {
-        $customers = $this->getCustomers();
+        $customers = Customer::getExamples();
         foreach ($customers as $customer) {
             if ($customer->getUsername() == $username && $customer->getPassword() == $password) {
                 return $customer;
             }
         }
         return null;
-    }
-
-    /**
-     * Get example of customers
-     * @return array
-     */
-    private function getCustomers() {
-        return [
-            new Customer('Honza', 'honza', 'heslo123', 1),
-            new Customer('Petr', 'petr', 'passwd', 2),
-            new Customer('Karel Novak', 'knovak', 'password', 3)
-        ];
     }
 }

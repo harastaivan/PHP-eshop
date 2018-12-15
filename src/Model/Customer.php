@@ -126,6 +126,9 @@ class Customer extends ActiveRecord
         $metadata->addPropertyConstraint('name', new Assert\NotBlank());
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function createDbTable()
     {
         self::execute('
@@ -134,5 +137,18 @@ class Customer extends ActiveRecord
               name TEXT,
               loyaltyPoints REAL
             )');
+    }
+
+    /**
+     * Get example of customers
+     * @return Customer[]
+     */
+    public static function getExamples()
+    {
+        return [
+            new Customer('Honza', 'honza', 'heslo123', 1),
+            new Customer('Petr', 'petr', 'passwd', 2),
+            new Customer('Karel Novak', 'knovak', 'password', 3)
+        ];
     }
 }

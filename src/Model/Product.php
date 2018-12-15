@@ -120,6 +120,9 @@ class Product extends ActiveRecord
         ]));
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function createDbTable()
     {
         self::execute('
@@ -131,6 +134,9 @@ class Product extends ActiveRecord
             )');
     }
 
+    /**
+     * @return array
+     */
     public function getAssocData() {
         $data = [];
         $data['id'] = $this->id;
@@ -138,5 +144,17 @@ class Product extends ActiveRecord
         $data['price'] = $this->price;
         $data['vatRate'] = $this->vatRate;
         return $data;
+    }
+
+    /**
+     * @return Product[]
+     */
+    public static function getExamples()
+    {
+        return [
+            new Product('Penezenka', 500, 0.21, 1),
+            new Product('Mobil', 15000, 0.21, 2),
+            new Product('Klice', 100, 0.21, 3),
+        ];
     }
 }

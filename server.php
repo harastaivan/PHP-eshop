@@ -5,7 +5,6 @@ require 'vendor/autoload.php';
 use Slim\Http\Request;
 use Slim\Http\Response;
 use EShop\Model\Product;
-use EShop\Model\Customer;
 use EShop\Middleware\AuthMiddleware;
 
 $app = new \Slim\App();
@@ -19,11 +18,7 @@ function checkBody($body, $name, &$errors) {
 
 // Products
 $app->get('/products', function (Request $request, Response $response, $args) {
-    $products = [
-        new Product('Penezenka', 500, 0.21, 1),
-        new Product('Mobil', 15000, 0.21, 2),
-        new Product('Klice', 100, 0.21, 3),
-    ];
+    $products = Product::getExamples();
     $data = [];
 
     foreach ($products as $product) {
@@ -33,11 +28,7 @@ $app->get('/products', function (Request $request, Response $response, $args) {
 });
 
 $app->get('/products/{id}', function (Request $request, Response $response, $args) {
-    $products = [
-        new Product('Penezenka', 500, 0.21, 1),
-        new Product('Mobil', 15000, 0.21, 2),
-        new Product('Klice', 100, 0.21, 3),
-    ];
+    $products = Product::getExamples();
     $id = $args['id'];
 
     foreach ($products as $product) {
