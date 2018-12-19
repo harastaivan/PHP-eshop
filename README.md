@@ -133,3 +133,18 @@ X-Powered-By: PHP/7.1.19
 Content-Type: text/html; charset=UTF-8
 Content-Length: 0
 ```
+
+## 10 - Scrapování
+
+### Kosmas
+
+- v souboru `scraping.php` funkce `crawlKosmasBooks()`
+
+### Ticket portal
+
+- v souboru `scraping.php` funkce `crawlTicketPortal()`
+- nebude jednoduše fungovat, protože content na stránce je generován dynamicky Javascriptem, nemůžu ho tedy jednoduše Crawlnout
+
+### Lucerna music bar
+
+- v souboru `scraping.php` funkce `crawlLucernaMusicBar()`
