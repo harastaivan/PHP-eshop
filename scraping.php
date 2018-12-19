@@ -8,9 +8,12 @@ $client = new Client();
 
 $books = crawlKosmasBooks($client);
 
+$ticketPortal = crawlTicketPortal($client);
+
 $events = crawlLucernaMusicBar($client);
 
 var_dump($books);
+var_dump($ticketPortal);
 var_dump($events);
 
 function crawlKosmasBooks(Client $client) {
@@ -27,6 +30,19 @@ function crawlKosmasBooks(Client $client) {
     });
 
     return $books;
+}
+
+function crawlTicketPortal(Client $client) {
+    $crawler = $client->request('GET', 'https://www.ticketportal.cz/');
+
+    $events = [];
+
+    $crawler->filter('#timeline_row_0 > div')->each(function ($node) use (&$events) {
+        // #timeline_row_0 - tento element je v DOMu ale ne ve zdrojovem kodu
+        // content je generovan dynamicky nejspise javascriptem
+    });
+
+    return $events;
 }
 
 function crawlLucernaMusicBar(Client $client) {
